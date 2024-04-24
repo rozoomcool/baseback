@@ -1,5 +1,7 @@
 package com.itabrek.baseback.configuration;
 
+import com.itabrek.baseback.authentication.JwtAuthenticationFilter;
+import com.itabrek.baseback.entity.Role;
 import com.itabrek.baseback.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +34,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
 
     @Bean
@@ -47,21 +49,17 @@ public class SecurityConfiguration {
                     return corsConfiguration;
                 }))
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
-//                        .requestMatchers("/ping").hasAuthority(Role.USER.name())
-//                        .requestMatchers("/shorts/**").hasAuthority(Role.USER.name())
-//                        .requestMatchers(HttpMethod.GET, "/media/**").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/product/all").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/{username}").permitAll()
-//                        .requestMatchers("/gs-guide-websocket/**").permitAll()
-//                        .requestMatchers("/app/location").permitAll()
-//                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated())
-//                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-//                .authenticationProvider(authenticationProvider())
-////                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-;
+                        .requestMatchers("/ping").hasAuthority(Role.USER.name())
+                        .requestMatchers("/shorts/**").hasAuthority(Role.USER.name())
+                        .requestMatchers(HttpMethod.GET, "/media/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/product/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/{username}").permitAll()
+                        .anyRequest().permitAll())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -83,17 +81,17 @@ public class SecurityConfiguration {
             throws Exception {
         return config.getAuthenticationManager();
     }
-//
-//    @Bean
-//    public RoleHierarchyImpl roleHierarchy() {
-//        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-//        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
-//        return roleHierarchy;
-//    }
-//
-//    private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
-//        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
-//        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
-//        return defaultWebSecurityExpressionHandler;
-//    }
+
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
+        return roleHierarchy;
+    }
+
+    private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
+        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+        return defaultWebSecurityExpressionHandler;
+    }
 }
