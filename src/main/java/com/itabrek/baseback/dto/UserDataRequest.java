@@ -13,8 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class UserDataRequest {
-    private String firstname;
-    private String lastname;
+    private String fullName;
     private String phone;
     @JsonFormat(pattern = "dd.MM.yyyy")
     private Date dateOfBirth;

@@ -36,8 +36,7 @@ public class UserDataService {
                                                 .username(value.getUser().getUsername())
                                                 .build()
                                 )
-                                .firstname(value.getFirstname())
-                                .lastname(value.getLastname())
+                                .fullName(value.getFullName())
                                 .phone(value.getPhone())
                                 .build(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -51,8 +50,7 @@ public class UserDataService {
         UserData updatedResult = userDataRepository.save(UserData.builder()
                         .id(currentUserData.getId())
                         .user(currentUserData.getUser())
-                        .firstname(updatedUserData.getFirstname())
-                        .lastname(updatedUserData.getLastname())
+                        .fullName(updatedUserData.getFullName())
                         .phone(updatedUserData.getPhone())
                         .dateOfBirth(updatedUserData.getDateOfBirth())
                 .build());
