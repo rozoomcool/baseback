@@ -26,6 +26,9 @@ public class Review {
 
     private int rating;
 
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    private UserData userdata;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 }

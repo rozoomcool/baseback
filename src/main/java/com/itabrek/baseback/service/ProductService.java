@@ -45,10 +45,12 @@ public class ProductService {
         List<Review> reviews = new ArrayList<>();
         List<Tag> tags = new ArrayList<>();
 
-        reviewRepository.saveAll(product.getReviews()).forEach(reviews::add);
+        UserData currentUserData = userDataService.getUserDataByUsername(username);
+
+        reviewRepository.saveAll(product.getReviews().stream().peek((value) -> value.setUserdata(currentUserData)).toList()).forEach(reviews::add);
         tagRepository.saveAll(product.getTags());
 
-        product.setOwnerUserData(userDataService.getUserDataByUsername(username));
+        product.setOwnerUserData(currentUserData);
 
         Product saved = productRepository.save(product);
 
