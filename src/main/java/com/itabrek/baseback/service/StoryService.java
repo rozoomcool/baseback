@@ -47,10 +47,10 @@ public class StoryService {
     }
 
     @Transactional
-    public ResponseEntity addComment(CommentRequest request) {
+    public ResponseEntity addComment(CommentRequest request, String username) {
         Comment comment = Comment.builder()
                 .body(request.getCommentBody())
-                .user(userService.getCurrentUser())
+                .ownerUsername(username)
                 .build();
         Story currentStory = storyRepository.findById(request.getStoryId()).get();
         List<Comment> comments = currentStory.getComments();

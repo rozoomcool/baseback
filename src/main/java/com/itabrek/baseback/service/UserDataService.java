@@ -5,6 +5,7 @@ import com.itabrek.baseback.dto.UserDataResponse;
 import com.itabrek.baseback.dto.UserResponse;
 import com.itabrek.baseback.entity.User;
 import com.itabrek.baseback.entity.UserData;
+import com.itabrek.baseback.exception.UserNotFoundException;
 import com.itabrek.baseback.repository.UserDataRepository;
 import com.itabrek.baseback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +41,11 @@ public class UserDataService {
                                 .phone(value.getPhone())
                                 .build(), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    public UserData getUserDataByUsername(String username) throws UserNotFoundException {
+        Optional<UserData> userData = userDataRepository.findByUserUsername(username);
+        return userData.orElseThrow(() -> new UserNotFoundException("USER NOT FOUND"));
     }
 
     public ResponseEntity<UserDataResponse> updateUserData(UserDataRequest updatedUserData) {
