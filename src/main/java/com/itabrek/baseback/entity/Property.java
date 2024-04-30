@@ -1,6 +1,5 @@
 package com.itabrek.baseback.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,33 +9,28 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "users_data")
+@Entity(name="properties")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "property_type", discriminatorType = DiscriminatorType.STRING)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserData {
-
+public class Property {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
-    @JoinColumn(name = "id")
-    private User user;
+    private String address;
+    private String description;
 
-    @Column(name = "full_name")
-    private String fullName;
+    @ManyToOne
+    private UserData owner;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    @OneToMany
+    private List<Comment> comments;
 
     @CreationTimestamp
     private Timestamp created_at;

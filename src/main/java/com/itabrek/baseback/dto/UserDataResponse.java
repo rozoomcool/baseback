@@ -14,15 +14,13 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserDataResponse {
     private UserResponse user;
-    private String firstname;
-    private String lastname;
+    private String fullName;
     private String phone;
     private Date dateOfBirth;
 
     public UserDataResponse(UserData userData) {
         this.user = new UserResponse(userData.getUser());
-        this.firstname = userData.getFirstname();
-        this.lastname = userData.getLastname();
+        this.fullName = userData.getFullName();
         this.phone = userData.getPhone();
         this.dateOfBirth = userData.getDateOfBirth();
     }

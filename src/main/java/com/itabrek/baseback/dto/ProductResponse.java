@@ -1,39 +1,33 @@
-package com.itabrek.baseback.entity;
+package com.itabrek.baseback.dto;
 
+import com.itabrek.baseback.entity.ProductCategory;
+import com.itabrek.baseback.entity.Review;
+import com.itabrek.baseback.entity.Tag;
+import com.itabrek.baseback.entity.UserData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "products")
-@AllArgsConstructor
-@RequiredArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductResponse {
     private Long id;
     private String title;
     private String description;
     private double price;
     private int count;
     private String quantity;
-    @ManyToOne
     private ProductCategory category;
-    @ManyToMany
     private List<Tag> tags;
-    @OneToMany
     private List<Review> reviews;
-    @ManyToOne
-    private UserData ownerUserData;
-    @Temporal(TemporalType.TIMESTAMP)
+    private UserDataResponse ownerUserData;
     private Date createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 }
