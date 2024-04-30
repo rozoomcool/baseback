@@ -6,24 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
-
 @Entity
-@Table(name = "comments")
+@Table(name = "tags")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
 @Builder
-public class Comment {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "body", nullable = false)
-    private String body;
-
-    @Column(name = "publish_date", nullable = false)
-    private Date publishDate = new Date();
-
-    private String ownerUsername;
+    private String name;
 }

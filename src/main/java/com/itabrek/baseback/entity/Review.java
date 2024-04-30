@@ -9,21 +9,23 @@ import lombok.RequiredArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "reviews")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
 @Builder
-public class Comment {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "body", nullable = false)
-    private String body;
+    private String title;
 
-    @Column(name = "publish_date", nullable = false)
-    private Date publishDate = new Date();
+    @Column(columnDefinition = "TEXT")
+    private String content;
 
-    private String ownerUsername;
+    private int rating;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 }

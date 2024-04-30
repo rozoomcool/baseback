@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/shorts")
@@ -42,7 +43,7 @@ public class StoryController {
     }
 
     @PostMapping("/comment")
-    protected ResponseEntity postComment(@RequestBody CommentRequest request) {
-        return storyService.addComment(request);
+    protected ResponseEntity postComment(@RequestBody CommentRequest request, Principal principal) {
+        return storyService.addComment(request, principal.getName());
     }
 }
