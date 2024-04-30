@@ -7,11 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Entity
-@Table(name = "media_groups")
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Data
-@Builder
-public class MediaGroup {
-}
+//@Entity
+//@Table(name = "media_groups")
+//@AllArgsConstructor
+//@RequiredArgsConstructor
+//@Data
+//@Builder
+//public class MediaGroup {
+//}
