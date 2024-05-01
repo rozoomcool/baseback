@@ -5,6 +5,7 @@ import com.itabrek.baseback.entity.ChatNotification;
 import com.itabrek.baseback.service.ChatMessageService;
 import com.itabrek.baseback.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -28,5 +29,12 @@ public class ChatController {
     @SendTo("/topic/chat")
     public String sendMessage(String message) {
         return message;
+    }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String greeting(Message message) {
+        System.out.println(":::::::" + message.getPayload().toString());
+        return message.getPayload().toString();
     }
 }
