@@ -1,6 +1,8 @@
 package com.itabrek.baseback.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.ChatResponse;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -21,31 +23,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AIController {
 
-    OllamaApi ollamaApi = new OllamaApi();
+    private static final Logger logger = LoggerFactory.getLogger(AIController.class);
+    private final OllamaApi ollamaApi = new OllamaApi();
 
-    OllamaChatClient chatClient = new OllamaChatClient(ollamaApi).withModel("llama3")
-            .withDefaultOptions(OllamaOptions.create()
-                    .withModel(OllamaOptions.DEFAULT_MODEL)
-                    .withTemperature(0.9f));
+    private final OllamaChatClient chatClient;
 
     @GetMapping("/generate")
     public Map generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        return Map.of("generation", chatClient.call(new Prompt(
-                message,
-                OllamaOptions.create()
-                        .withModel("llama3")
-                        .withTemperature(0.4f)
-        )));
+        logger.info("START AI GENERATE EXECUTE");
+        Prompt prompt = new Prompt(new UserMessage(message));
+        return Map.of("generation", chatClient.call(prompt));
     }
 
     @GetMapping("/generateStream")
-    public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
+    public Flux<ChatResponse> generateStream(@RequestParam(value = "message", defaultValue = "Tell me a joke and tell me about programming") String message) {
+        logger.info("START AI STREAM GENERATE EXECUTE");
         Prompt prompt = new Prompt(new UserMessage(message));
-        return chatClient.stream(new Prompt(
-                message,
-                OllamaOptions.create()
-                        .withModel("llama3")
-                        .withTemperature(0.4f)
-        ));
+        return chatClient.stream(prompt);
     }
 }

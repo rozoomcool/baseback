@@ -51,6 +51,7 @@ public class SecurityConfiguration {
                 }))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/ai/**").permitAll()
                         .requestMatchers("/ws/**").authenticated()
                         .requestMatchers("/ping").hasAuthority(Role.USER.name())
                         .requestMatchers("/shorts/**").hasAuthority(Role.USER.name())
