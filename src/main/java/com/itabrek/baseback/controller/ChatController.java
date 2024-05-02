@@ -33,8 +33,8 @@ public class ChatController {
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
-    public String greeting(Message message) {
+    public String greeting(Message message, @Payload String mes) {
         System.out.println(":::::::" + message.getPayload().toString());
-        return message.getPayload().toString();
+        return mes;
     }
 }
