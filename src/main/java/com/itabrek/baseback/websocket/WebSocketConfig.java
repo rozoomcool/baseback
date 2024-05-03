@@ -36,7 +36,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/secured/history", "/secured/user/queue/specific-user");
+        config.enableStompBrokerRelay("/topic", "/queue/private")
+                .setRelayHost("localhost")
+                //?connection_attempts=5&retry_delay=5
+                .setRelayPort(5672)
+                .setUserDestinationBroadcast("/topic/unresolved.user.dest")
+                .setUserRegistryBroadcast("/topic/registry.broadcast")
+                .setClientLogin("guest")
+                .setClientPasscode("guest");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
     }
@@ -44,19 +51,19 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").setAllowedOrigins("*");
-        registry.addEndpoint("/secured/room").setAllowedOrigins("*");
+//        registry.addEndpoint("/secured/room").setAllowedOrigins("*");
     }
 
-    @Override
-    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
-        DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
-        resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setObjectMapper(new ObjectMapper());
-        converter.setContentTypeResolver(resolver);
-        messageConverters.add(converter);
-        return false;
-    }
+//    @Override
+//    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+//        DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
+//        resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
+//        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+//        converter.setObjectMapper(new ObjectMapper());
+//        converter.setContentTypeResolver(resolver);
+//        messageConverters.add(converter);
+//        return false;
+//    }
 
     @Bean
     public ServerEndpointExporter serverEndpointExporter() {

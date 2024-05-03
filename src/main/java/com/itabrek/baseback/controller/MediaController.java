@@ -36,31 +36,8 @@ public class MediaController {
 
     private static final Logger logger = LoggerFactory.getLogger(MediaController.class);
 
-//    @GetMapping("/{mediaName}")
-//    public ResponseEntity getMedia(@PathVariable String mediaName) throws IOException, GetBytesException {
-//        try {
-//            logger.info("Start get_media execution");
-//            Path imagePath = Paths.get(mediaPath, mediaName);
-//
-//            byte[] fileBytes = Files.readAllBytes(imagePath);
-//
-//            final var mimeTypeDetector = new MimeTypeDetector();
-//            final var mimeType = mimeTypeDetector.detectMimeType(mediaName, () -> fileBytes);
-//
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.asMediaType(MimeType.valueOf(mimeType)));
-//
-//            return ResponseEntity.ok()
-//                    .headers(headers)
-//                    .body(fileBytes);
-//        } catch (Exception e) {
-//            logger.info("Unable to send file", e);
-//            return new ResponseEntity<>("Unable to load file", HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @GetMapping("/{mediaName}")
-    public Mono<ResponseEntity<Resource>> getMedia(@PathVariable String mediaName) throws IOException, GetBytesException {
+    public Mono<ResponseEntity<Resource>> getMedia(@PathVariable String mediaName) {
         return mediaService.getMedia(mediaName);
     }
 }

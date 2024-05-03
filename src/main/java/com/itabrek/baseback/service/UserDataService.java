@@ -9,6 +9,7 @@ import com.itabrek.baseback.exception.UserNotFoundException;
 import com.itabrek.baseback.repository.UserDataRepository;
 import com.itabrek.baseback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -24,23 +25,13 @@ public class UserDataService {
     private final UserDataRepository userDataRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private static final Logger logger = LoggerFactory.getLogger(UserDataService.class);
 
-    public ResponseEntity<UserDataResponse> getUserData(String username) {
-        Optional<UserData> userData = userDataRepository.findByUserUsername(username);
-        return userData.map(value -> new ResponseEntity<>(
-                        UserDataResponse.builder()
-                                .user(
-                                        UserResponse.builder()
-                                                .email(value.getUser().getEmail())
-                                                .username(value.getUser().getUsername())
-                                                .build()
-                                )
-                                .fullName(value.getFullName())
-                                .phone(value.getPhone())
-                                .build(), HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public UserDataResponse getUserData(String username) throws UserNotFoundException {
+        UserData userData = userDataRepository.findByUserUsername(username).orElseThrow(() -> new UserNotFoundException("User not found"));
+        return modelMapper.map(userData, UserDataResponse.class);
     }
 
     public UserData getUserDataByUsername(String username) throws UserNotFoundException {

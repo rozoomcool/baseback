@@ -39,6 +39,11 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
+	implementation("io.projectreactor.netty:reactor-netty")
+//	implementation("org.projectreactor:reactor-net")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	compileOnly("org.projectlombok:lombok")
