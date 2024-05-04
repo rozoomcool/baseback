@@ -36,14 +36,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableStompBrokerRelay("/topic", "/queue/private")
-                .setRelayHost("localhost")
-                //?connection_attempts=5&retry_delay=5
-                .setRelayPort(5672)
-                .setUserDestinationBroadcast("/topic/unresolved.user.dest")
-                .setUserRegistryBroadcast("/topic/registry.broadcast")
-                .setClientLogin("guest")
-                .setClientPasscode("guest");
+//        config.enableStompBrokerRelay("/topic", "/queue/private")
+//                .setRelayHost("localhost")
+//                //?connection_attempts=5&retry_delay=5
+//                .setRelayPort(5672)
+//                .setUserDestinationBroadcast("/topic/unresolved.user.dest")
+//                .setUserRegistryBroadcast("/topic/registry.broadcast")
+//                .setClientLogin("guest")
+//                .setClientPasscode("guest");
+        config.enableSimpleBroker("/topic", "/queue/private");
         config.setApplicationDestinationPrefixes("/app");
         config.setUserDestinationPrefix("/user");
     }

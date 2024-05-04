@@ -40,6 +40,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.ai:spring-ai-ollama-spring-boot-starter")
 	implementation("io.projectreactor.netty:reactor-netty")
+	implementation("io.projectreactor.netty:reactor-netty-http")
+//	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+//	implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
+
 //	implementation("org.projectreactor:reactor-net")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 

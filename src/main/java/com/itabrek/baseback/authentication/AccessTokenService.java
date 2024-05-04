@@ -59,7 +59,7 @@ public class AccessTokenService {
                 .claims(extraClaims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 * 1000))
                 .signWith(getSigningKey(), Jwts.SIG.HS256).compact();
     }
 
