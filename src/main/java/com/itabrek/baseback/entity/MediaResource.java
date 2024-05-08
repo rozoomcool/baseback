@@ -6,19 +6,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Entity
-@Table(name = "media_group")
+@Table(name = "media_resource")
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
 @Builder
-public class MediaGroup {
+public class MediaResource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<MediaResource> resources;
+    private String name;
+
 }
+

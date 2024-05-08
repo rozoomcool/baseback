@@ -4,21 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
 @Entity
-@Table(name = "media_group")
-@AllArgsConstructor
-@RequiredArgsConstructor
+@Table(name="global_message")
 @Data
 @Builder
-public class MediaGroup {
+@AllArgsConstructor
+@NoArgsConstructor
+public class GlobalMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany
-    private List<MediaResource> resources;
+    private String content;
+    private Date timestamp;
 }

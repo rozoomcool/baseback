@@ -7,16 +7,17 @@ import com.itabrek.baseback.service.ChatMessageService;
 import com.itabrek.baseback.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.handler.annotation.*;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,9 +40,9 @@ public class ChatController {
         return mes.getMessage();
     }
 
-    @MessageMapping("/private/{username}")
-    public void sendPrivateMessage(@Payload Greeting message, @DestinationVariable("username") String username) {
-        System.out.println(":::::::::::::");
-        messagingTemplate.convertAndSendToUser(username, "/queue/private", message.toString());
+    @MessageMapping("/private")
+//    @SendToUser("/queue/private")
+    public void sendPrivateMessage(@Payload ChatMessage message) {
+        messagingTemplate.convertAndSendToUser(message.getRecipientName(), "/queue/private", message);
     }
 }

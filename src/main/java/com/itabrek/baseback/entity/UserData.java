@@ -38,6 +38,9 @@ public class UserData {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @OneToOne
+    private MediaGroup mediaGroup;
+
     @CreationTimestamp
     private Timestamp created_at;
     @UpdateTimestamp
