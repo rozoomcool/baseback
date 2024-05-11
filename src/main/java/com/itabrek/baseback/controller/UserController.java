@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -47,5 +49,13 @@ public class UserController {
     protected ResponseEntity<UserDataResponse> updateUserData(@RequestBody UserDataRequest userDataRequest) {
         logger.info("EXECUTE UPDATE USER DATA");
         return userDataService.updateUserData(userDataRequest);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handle(Exception ex) {
+        logger.error(ex.getMessage());
+        return ResponseEntity
+                .status(INTERNAL_SERVER_ERROR)
+                .body(ex.getMessage());
     }
 }
